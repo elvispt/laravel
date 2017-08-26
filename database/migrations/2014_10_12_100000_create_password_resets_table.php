@@ -6,6 +6,8 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreatePasswordResetsTable extends Migration
 {
+    const TABLE = 'password_resets';
+
     /**
      * Run the migrations.
      *
@@ -13,10 +15,16 @@ class CreatePasswordResetsTable extends Migration
      */
     public function up()
     {
-        Schema::create('password_resets', function (Blueprint $table) {
-            $table->string('email')->index();
+        Schema::create(static::TABLE, function (Blueprint $table) {
+            $table
+                ->string('email')
+                ->index()
+            ;
             $table->string('token');
-            $table->timestamp('created_at')->nullable();
+            $table
+                ->timestamp('created_at')
+                ->nullable()
+            ;
         });
     }
 
@@ -27,6 +35,6 @@ class CreatePasswordResetsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('password_resets');
+        Schema::dropIfExists(static::TABLE);
     }
 }

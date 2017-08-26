@@ -1,12 +1,12 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-class CreateUsersTable extends Migration
+class CreateNotesTable extends Migration
 {
-    const TABLE = 'users';
+    const TABLE = 'notes';
 
     /**
      * Run the migrations.
@@ -16,14 +16,14 @@ class CreateUsersTable extends Migration
     public function up()
     {
         Schema::create(static::TABLE, function (Blueprint $table) {
-            $table->smallInteger('id');
-            $table->string('name');
+            $table->mediumIncrements('id');
             $table
-                ->string('email')
-                ->unique()
+                ->smallInteger('user_id')
+                ->unsigned()
             ;
-            $table->string('password');
-            $table->rememberToken();
+            $table
+                ->text('note')
+            ;
             $table->softDeletesTz();
             $table->timestampsTz();
         });

@@ -4,9 +4,9 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUsersTable extends Migration
+class CreateTagsTable extends Migration
 {
-    const TABLE = 'users';
+    const TABLE = 'tags';
 
     /**
      * Run the migrations.
@@ -16,14 +16,15 @@ class CreateUsersTable extends Migration
     public function up()
     {
         Schema::create(static::TABLE, function (Blueprint $table) {
-            $table->smallInteger('id');
-            $table->string('name');
+            $table->smallIncrements('id');
             $table
-                ->string('email')
+                ->string('tag', 20)
                 ->unique()
             ;
-            $table->string('password');
-            $table->rememberToken();
+            $table
+                ->smallInteger('user_id')
+                ->unsigned()
+            ;
             $table->softDeletesTz();
             $table->timestampsTz();
         });
