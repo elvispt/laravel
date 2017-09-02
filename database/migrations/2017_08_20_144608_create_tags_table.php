@@ -25,7 +25,6 @@ class CreateTagsTable extends Migration
                 ->smallInteger('user_id')
                 ->unsigned()
             ;
-            $table->softDeletesTz();
             $table->timestampsTz();
         });
     }
