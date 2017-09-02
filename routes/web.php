@@ -12,20 +12,18 @@
 */
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    $userModel = new \App\Models\User();
-    $user = $userModel->with([
-        'notes',
-        'tags'
-    ])->first();
-    return $user;
+Route::group([
+    'prefix' => '/scrapbook/',
+], function () {
+    // notes crud
+    Route::get('', 'NoteController@index');
+    Route::get('{id}', 'NoteController@show');
+    Route::post('{id}', 'NoteController@store');
+    Route::put('{id}', 'NoteController@update');
+    Route::delete('{id}', 'NoteController@destroy');
+
+    // tags crud
+    Route::get('tags', 'TagController@index');
 });
 
-Route::get('/notes', function () {
-    $note = new \App\Models\Note();
-    return $note->with(['tags'])->first();
-});
-
-Route::get('/tags', function () {
-    return \App\Models\Tag::all();
-});
+Route::get('/', 'NoteController@latest');
