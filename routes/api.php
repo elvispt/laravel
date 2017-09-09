@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +13,17 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group([
+    'prefix' => '/scrapbook/',
+    //'middleware' => 'auth:api',
+], function () {
+    // notes crud
+    Route::get('', 'NoteController@index');
+    Route::get('{id}', 'NoteController@show');
+    Route::post('{id}', 'NoteController@store');
+    Route::put('{id}', 'NoteController@update');
+    Route::delete('{id}', 'NoteController@destroy');
+
+    // tags crud
+    Route::get('tags', 'TagController@index');
 });
