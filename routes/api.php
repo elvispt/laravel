@@ -14,13 +14,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group([
-    'prefix' => '/scrapbook/',
+    'prefix' => '/scrapbook',
     //'middleware' => 'auth:api',
 ], function () {
     // notes crud
     Route::get('', 'NoteController@index');
     Route::get('{id}', 'NoteController@show');
-    Route::post('{id}', 'NoteController@store');
+    Route::post('', 'NoteController@store');
     Route::put('{id}', 'NoteController@update');
     Route::delete('{id}', 'NoteController@destroy');
 

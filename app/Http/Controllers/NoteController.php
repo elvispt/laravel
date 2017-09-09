@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Note;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Validator;
 
 class NoteController extends Controller
 {
@@ -32,7 +34,29 @@ class NoteController extends Controller
      */
     public function store(Request $request)
     {
-        return 'Implement creation of note.';
+        $validationRules = [
+            'userId' => [
+                'required',
+                'integer',
+                Rule::exists('users', 'id'),
+            ],
+            'note' => 'required|string',
+        ];
+        /**
+         * @var $validation \Illuminate\Validation\Validator
+         */
+        $validation = Validator::make($request->all(), $validationRules);
+        if ($validation->fails()) {
+            $messages = $validation->errors()->getMessages();
+            return response()->json($messages, Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+        $noteModel = new Note();
+        $noteModel->user_id = $request->get('userId');
+        $noteModel->note = $request->get('note');
+        $noteModel->save();
+        return response()->json((Object) [
+            'id' => $noteModel->id,
+        ], Response::HTTP_CREATED);
     }
 
     /**
