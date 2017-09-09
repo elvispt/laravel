@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Note;
 use Illuminate\Support\Facades\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class NoteController extends Controller
 {
@@ -52,7 +53,14 @@ class NoteController extends Controller
      */
     public function destroy(int $id)
     {
-        return 'Implement delete of note.';
+        $note = Note::find($id);
+        if ($note === null) {
+            $statusCode = Response::HTTP_NOT_FOUND;
+        } else {
+            $note->delete();
+            $statusCode = Response::HTTP_NO_CONTENT;
+        }
+        return response('', $statusCode);
     }
 
     /**
