@@ -88,7 +88,7 @@ class NoteController extends Controller
     }
 
     /**
-     * Shows most recent note
+     * Shows most recent notes
      */
     public function latest()
     {
@@ -97,7 +97,8 @@ class NoteController extends Controller
             'tags',
         ])
             ->orderBy('updated_at', 'DESC')
-            ->first();
+            ->limit(10)
+            ->get();
         return $note;
     }
 }
